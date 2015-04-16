@@ -18,8 +18,8 @@ Changes again's Autoquad:
 		read number of satellites
 
 	parameters:
-		CTRL_BATT_COMP: 
-		IMU_MPU_LPF: 
+		CTRL_BATT_COMP: variable Battery Voltage Compensation
+		IMU_MPU_LPF:    Lowpass-Filter configuration
 
 	dimu:
 		more debug output
