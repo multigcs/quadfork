@@ -2,7 +2,7 @@
 Changes again's Autoquad:
 
 	hardware:
-		better support für free openfc hardware (http://www.openfc.de/)
+		better support for free openfc hardware (http://www.openfc.de/)
 
 	buildysystem:
 		moving to a free gcc-compiler-enviroment
