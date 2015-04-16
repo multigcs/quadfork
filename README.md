@@ -9,13 +9,13 @@ Changes again's Autoquad:
 		new directory structur
 
 	mavlink:
-		report number of satelites
+		report number of satellites
 		Follow-ME (Ardupilot style)
 		report current (Ampere)
 		set ROI in missions
 
 	gps:
-		read number of satelites
+		read number of satellites
 
 	parameters:
 		CTRL_BATT_COMP: 
