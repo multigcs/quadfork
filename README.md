@@ -1,5 +1,6 @@
 
 Changes again's Autoquad:
+
 	hardware:
 		better support für free openfc hardware
 
@@ -29,38 +30,14 @@ Changes again's Autoquad:
 
 
 
-OpenFC-Links:
+Build for OpenFC 0.90:
 
-	Forum:
-		http://diydrones.com/profiles/blogs/openfc-a-new-autoquad-software-compatible-open-hardware-flight
-		http://forum.autoquad.org/viewtopic.php?f=24&t=4398&p=31716&hilit=openfc
-		http://fpv-community.de/showthread.php?60150-Autoquad-M4-kompatible-FC-f%FCr-Brushless-Motoren-%28kein-Clone%29
+	make BOARD_TYPE=1 BOARD_VER=90 clean all
+	ls build/autoquad.hex
 
-	Schematics/layouts:
-		https://github.com/multigcs/openfc
+Build for OpenFC 0.91:
 
-	PCB-Order:
-		https://oshpark.com/shared_projects/FyF5jOLI
-		https://oshpark.com/shared_projects/zwyaRptP
-
-	Images:
-		http://www.multixmedia.org/test/images/img_JlzXA.png
-		http://www.multixmedia.org/test/images/img_IsYgZ.png
-		http://www.multixmedia.org/test/images/img_36xHe.png
-		http://www.multixmedia.org/test/images/img_NyOhK.png
-		http://www.multixmedia.org/test/images/img_661NY.png
-		http://www.multixmedia.org/test/images/img_l5Ujp.png
-		http://www.multixmedia.org/test/images/img_JvDj3.png
-
-	Videos:
-		https://www.youtube.com/watch?v=cWaLLEZJb3Y
-		https://www.youtube.com/watch?v=trHpGgnNXYM
-		https://www.youtube.com/watch?v=XDp27G_Ods4
-		https://www.youtube.com/watch?v=DHYyCXem55c
-		https://www.youtube.com/watch?v=Ro8h0Cgqvjg
-		https://www.youtube.com/watch?v=2_R4NkkhEYQ
-
-
-
+	make BOARD_TYPE=1 BOARD_VER=91 clean all
+	ls build/autoquad.hex
 
 
