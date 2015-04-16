@@ -16,15 +16,16 @@ GDB               = $(TOOLCHAIN_PREFIX)-gdb
 SIZE              = $(TOOLCHAIN_PREFIX)-size
 OBJCOPY           = $(TOOLCHAIN_PREFIX)-objcopy
 LINKER_SCRIPT     = src/system/STM32F405_FLASH.ld
-STMLIB           := Libraries
-CMSIS            := $(STMLIB)/CMSIS
+EXTLIBS          := Libraries
+CMSIS            := $(EXTLIBS)/CMSIS
 DSPLIB           := $(CMSIS)/DSP_Lib
-STD_PERIPH       := $(STMLIB)/STM32F4xx_StdPeriph_Driver
+STD_PERIPH       := $(EXTLIBS)/STM32F4xx_StdPeriph_Driver
 
 
 INCLUDE += -I$(STD_PERIPH)/inc
 INCLUDE += -I$(CMSIS)/Include
 INCLUDE += -I$(CMSIS)/Device/ST/STM32F4xx/Include
+INCLUDE += -I$(EXTLIBS)/Mavlink/include/autoquad
 
 INCLUDE += -I$(CURDIR)/src
 INCLUDE += -I$(CURDIR)/src/math
@@ -36,7 +37,6 @@ INCLUDE += -I$(CURDIR)/src/drivers/can
 INCLUDE += -I$(CURDIR)/src/drivers/usb
 INCLUDE += -I$(CURDIR)/src/drivers/sensors
 INCLUDE += -I$(CURDIR)/src/drivers/protocols
-INCLUDE += -I$(CURDIR)/src/drivers/protocols/mavlink/include/autoquad/
 
 STM_SRC  = 
 STM_SRC += $(STD_PERIPH)/src/misc.c
