@@ -107,23 +107,22 @@
 #define DEFAULT_MOT_VALUE2T_A2	    0.0f
 #define DEFAULT_MOT_VALUE_SCAL	    0.0f
 
-
-#define DEFAULT_MOT_PWRD_01_T	    0.0
-#define DEFAULT_MOT_PWRD_01_P	    0.0
-#define DEFAULT_MOT_PWRD_01_R	    0.0
-#define DEFAULT_MOT_PWRD_01_Y	    0.0
-#define DEFAULT_MOT_PWRD_02_T	    0.0
-#define DEFAULT_MOT_PWRD_02_P	    0.0
-#define DEFAULT_MOT_PWRD_02_R	    0.0
-#define DEFAULT_MOT_PWRD_02_Y	    0.0
-#define DEFAULT_MOT_PWRD_03_T	    0.0
-#define DEFAULT_MOT_PWRD_03_P	    0.0
-#define DEFAULT_MOT_PWRD_03_R	    0.0
-#define DEFAULT_MOT_PWRD_03_Y	    0.0
-#define DEFAULT_MOT_PWRD_04_T	    0.0
-#define DEFAULT_MOT_PWRD_04_P	    0.0
-#define DEFAULT_MOT_PWRD_04_R	    0.0
-#define DEFAULT_MOT_PWRD_04_Y	    0.0
+#define DEFAULT_MOT_PWRD_01_P	    100
+#define DEFAULT_MOT_PWRD_01_R	    100
+#define DEFAULT_MOT_PWRD_01_T	    100
+#define DEFAULT_MOT_PWRD_01_Y	   -100
+#define DEFAULT_MOT_PWRD_02_P	    100
+#define DEFAULT_MOT_PWRD_02_R	   -100
+#define DEFAULT_MOT_PWRD_02_T	    100
+#define DEFAULT_MOT_PWRD_02_Y	    100
+#define DEFAULT_MOT_PWRD_03_P	   -100
+#define DEFAULT_MOT_PWRD_03_R	   -100
+#define DEFAULT_MOT_PWRD_03_T	    100
+#define DEFAULT_MOT_PWRD_03_Y	   -100
+#define DEFAULT_MOT_PWRD_04_P	   -100
+#define DEFAULT_MOT_PWRD_04_R	    100
+#define DEFAULT_MOT_PWRD_04_T	    100
+#define DEFAULT_MOT_PWRD_04_Y	    100
 #define DEFAULT_MOT_PWRD_05_T	    0.0
 #define DEFAULT_MOT_PWRD_05_P	    0.0
 #define DEFAULT_MOT_PWRD_05_R	    0.0
@@ -173,7 +172,6 @@
 #define DEFAULT_MOT_PWRD_16_R	    0.0
 #define DEFAULT_MOT_PWRD_16_Y	    0.0
 
-
 #define DEFAULT_COMM_BAUD1	    	115200
 #define DEFAULT_COMM_BAUD2	    	115200
 #define DEFAULT_COMM_BAUD3	     	 57600
@@ -190,7 +188,6 @@
 #define DEFAULT_COMM_STREAM_TYP7    0                           // CAN UART stream ID 3
 
 #define DEFAULT_TELEMETRY_RATE	    20		// loops between reports
-
 
 #define DEFAULT_NAV_MAX_SPEED	    5.0f	// m/s
 #define DEFAULT_NAV_MAX_DECENT	    1.5f	// m/s
@@ -234,7 +231,6 @@
 #define DEFAULT_IMU_PRESS_SENSE	    0.0f		// 0 == sensor #1, 1 == sensor #2, 2 == both
 #define DEFAULT_IMU_MPU_LPF	        256		// 0 == Off 256 == 256HZ, ... 188HZ, 98HZ, 42HZ, 20HZ, 10HZ. 5HZ
 
-
 #define DEFAULT_GMBL_PITCH_PORT		0		// Gimbal pitch stabilization output port. 0 == disabled
 #define DEFAULT_GMBL_TILT_PORT		0		// Gimbal manual/PoI tilt control output port (can be same as PITCH_PORT to combine the 2 functions). 0 == disabled
 #define DEFAULT_GMBL_ROLL_PORT		0		// Gimbal roll stabilization output port. 0 == disabled
@@ -258,7 +254,6 @@
 #define DEFAULT_GMBL_PSTHR_CHAN		0		// Pure passthrough radio channel (eg. camera zoom, pan axis, lights, etc). 0 == disabled
 #define DEFAULT_GMBL_PSTHR_PORT		0		// Pure passthrough output port. 0 == disabled
 
-
 #define DEFAULT_SPVR_LOW_BAT1	    3.5f	    // cell volts
 #define DEFAULT_SPVR_LOW_BAT2	    3.3f	    // cell volts
 #define DEFAULT_SPVR_BAT_CRV1	    +9.210144e+00f
@@ -271,7 +266,6 @@
 #define DEFAULT_SPVR_FS_RAD_ST2     0           // radio failsafe stage 2 action (0 = land, 1 = RTH, land, 2 = Ascend if needed, RTH, land)
 #define DEFAULT_SPVR_FS_ADD_ALT     0.0f        // meters to add to home alt. for falisafe stg.2 action == 2
 #define DEFAULT_SPVR_VIN_SOURCE     0           // source to use for measuring primary voltage (0 = mains voltage on all boards; 1 = onboard external voltage divider)
-
 
 #define DEFAULT_QUATOS_J_ROLL		0.0127f		    // J matrix
 #define DEFAULT_QUATOS_J_PITCH		0.0127f		    // J matrix
