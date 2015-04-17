@@ -51,6 +51,8 @@
 #define BOARD_HEADER_FILE "board_ofc_0.91.h"
 #elif BOARD_VERSION == 92
 #define BOARD_HEADER_FILE "board_ofc_0.92.h"
+#elif BOARD_VERSION == 99
+#define BOARD_HEADER_FILE "board_ofc_0.99.h"
 #endif
 #else
 #if BOARD_VERSION == 6

@@ -74,8 +74,6 @@ STM_SRC += $(DSPLIB)/Source/MatrixFunctions/arm_mat_init_f32.c
 STM_SRC += $(DSPLIB)/Source/MatrixFunctions/arm_mat_trans_f32.c
 STM_SRC += $(DSPLIB)/Source/MatrixFunctions/arm_mat_inverse_f32.c
 
-ASM_SRC = src/system/startup_stm32f429_439xx.s
-
 SRC += src/system/fpu.c
 SRC += src/system/rtc.c
 SRC += src/system/rcc.c
@@ -186,25 +184,26 @@ SRC += src/supervisor.c
 SRC += src/getbuildnum.c
 
 
-CDEFS  = -DSTM32F429_439xx
-CDEFS += -DUSE_STDPERIPH_DRIVER -D__FPU_USED -D__FPU_PRESENT=1 -D__SIZEOF_WCHAR_T=4 -D__ARM_ARCH_7EM__
-CDEFS += -D__FPU_PRESENT=1 -DARM_MATH_CM4 -D__THUMB -DNESTED_INTERRUPTS -DCTL_TASKING
-CDEFS += -DBOARD_TYPE=$(BOARD_TYPE) -DBOARD_VERSION=$(BOARD_VER) -DBOARD_REVISION=$(BOARD_REV) -DDIMU_VERSION=$(DIMU_VER)
-CDEFS += -D__sqrtf=sqrtf
-
-#CDEFS += -DHSE_VALUE=8000000 -DPLL_M=8
-#LINKER_SCRIPT     = src/system/STM32F429_FLASH.ld
-CDEFS += -DHSE_VALUE=25000000 -DPLL_M=25
-LINKER_SCRIPT     = src/system/STM32F405_FLASH.ld
-
 MCUFLAGS  = -mcpu=cortex-m4 -mthumb -mlittle-endian -mfpu=fpv4-sp-d16 -mfloat-abi=hard
 MCUFLAGS += -fsingle-precision-constant -Wall -finline-functions
 MCUFLAGS += -Wdouble-promotion -std=c99 -fno-dwarf2-cfi-asm  -mno-thumb-interwork
 MCUFLAGS += -ffunction-sections -fdata-sections -fno-common -fmessage-length=0
 
+CDEFS = -DUSE_STDPERIPH_DRIVER -D__FPU_USED -D__FPU_PRESENT=1 -D__SIZEOF_WCHAR_T=4 -D__ARM_ARCH_7EM__
+CDEFS += -D__FPU_PRESENT=1 -DARM_MATH_CM4 -D__THUMB -DNESTED_INTERRUPTS -DCTL_TASKING
+CDEFS += -DBOARD_TYPE=$(BOARD_TYPE) -DBOARD_VERSION=$(BOARD_VER) -DBOARD_REVISION=$(BOARD_REV) -DDIMU_VERSION=$(DIMU_VER)
+CDEFS += -D__sqrtf=sqrtf
+
+STMTYPE        = STM32F429_439xx
+RCC_OPT        = -DHSE_VALUE=25000000 -DPLL_M=25
+LINKER_SCRIPT  = src/system/STM32F405_FLASH.ld
+ASM_SRC        = src/system/startup_stm32f429_439xx.s
+
+-include src/targets/board_$(BOARD_TYPE)_$(BOARD_VER)_$(BOARD_REV).mk
+
 
 COMMONFLAGS = -O$(OPTLVL) -g -Wall
-CFLAGS      = $(COMMONFLAGS) $(MCUFLAGS) $(INCLUDE) $(CDEFS)
+CFLAGS      = $(COMMONFLAGS) $(MCUFLAGS) $(INCLUDE) $(CDEFS) $(RCC_OPT) -D$(STMTYPE)
 LDLIBS      = -lm -lc -lg
 LDFLAGS     = $(COMMONFLAGS) $(MCUFLAGS) -fno-exceptions -ffunction-sections -fdata-sections -nostartfiles -Wl,-T,$(LINKER_SCRIPT)
 LDFLAGS    += -Wl,--gc-sections -Wl,--Map=$(BUILDDIR)/$(TARGET).map
