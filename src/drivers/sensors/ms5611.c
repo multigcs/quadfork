@@ -20,6 +20,7 @@
 #ifdef HAS_DIGITAL_IMU
 #include "ms5611.h"
 #include "imu.h"
+#include "comm.h"
 #include "aq_timer.h"
 #include <math.h>
 
@@ -225,7 +226,7 @@ static uint8_t ms5611CheckSum(void) {
 }
 
 uint8_t ms5611Init(void) {
-	int i, j;
+	int i, j, k;
 
 	utilFilterInit(&ms5611Data.tempFilter, (1.0f / 13.0f), DIMU_TEMP_TAU, IMU_ROOM_TEMP);
 
@@ -237,9 +238,15 @@ uint8_t ms5611Init(void) {
 
 		// read coefficients
 		for (i = 0; i < 8; i++) {
-			while (ms5611Data.p[i] == 0x0000 || ms5611Data.p[i] == 0xffff) {
+			k = 10;
+			while ((ms5611Data.p[i] == 0x0000 || ms5611Data.p[i] == 0xffff) && k > 0) {
 				ms5611Data.p[i] = ms5611Read(0xa0 + i*2, 2);
+				k--;
 				delay(1);
+			}
+			if (k == 0) {
+				ms5611Data.initialized = 0;
+				return ms5611Data.initialized;
 			}
 		}
 	} while (--j && ms5611CheckSum() != (ms5611Data.p[7] & 0x000f));
