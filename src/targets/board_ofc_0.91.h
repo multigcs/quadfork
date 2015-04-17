@@ -479,6 +479,8 @@ enum pwmPorts {
 #define DIMU_HAVE_MPU6000
 #define DIMU_HAVE_HMC5983
 #define DIMU_HAVE_MS5611
+#define DEFAULT_IMU_FLIP            1
+
 
 #define MPU6000_ACC_SCALE           16     // g      (2, 4, 8, 16)
 #define MPU6000_GYO_SCALE           2000  // deg/s  (250, 500, 1000, 2000)

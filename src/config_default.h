@@ -225,8 +225,9 @@
 #define DEFAULT_NAV_ALT_POS_PM	    2.5f
 #define DEFAULT_NAV_ALT_POS_IM	    0.0f
 #define DEFAULT_NAV_ALT_POS_OM	    2.5f
-
+#ifndef DEFAULT_IMU_FLIP
 #define DEFAULT_IMU_FLIP            0                   // flip DIMU: 0 == none, 1 == around x axis, 2 == around y axis
+#endif
 #define DEFAULT_IMU_ROT		    	+0.0		// degrees to rotate the IMU to align with the frame (applied after FLIP)
 #define DEFAULT_IMU_MAG_INCL	    -65.0
 #define DEFAULT_IMU_MAG_DECL	    0.0
