@@ -21,6 +21,8 @@
 #include "can.h"
 #include "imu.h"
 
+#ifdef CANx
+
 canCalibStruct_t canCalibData;
 
 void canCalibInit(void) {
@@ -162,3 +164,5 @@ void canTxIMUData(uint32_t loop) {
 		}
 	}
 }
+
+#endif

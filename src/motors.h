@@ -29,8 +29,10 @@
 #define MOTORS_SCALE		    ((1<<12) - 1)    // internal, unitless scale of motor output (0 -> 4095)
 #define MOTORS_NUM		    16
 
+#ifdef CANx
 #define MOTORS_CAN_GROUP_SIZE	    4
 #define MOTORS_CAN_TELEM_RATE	    100		    // Hz
+#endif
 
 #define MOTORS_COMP_PRELOAD_TAU	    0.3f//0.4f
 #define MOTORS_COMP_PRELOAD_PTERM   3.0f//3.5f
@@ -54,12 +56,14 @@ typedef struct {
 
 typedef struct {
 	motorsPowerStruct_t *distribution;
+#ifdef CANx
 	canNodes_t *can[MOTORS_NUM];
 	uint16_t *canPtrs[MOTORS_NUM];
 	canGroup16_t canGroups[MOTORS_NUM/MOTORS_CAN_GROUP_SIZE];
 	esc32CanStatus_t canStatus[MOTORS_NUM];
 	uint32_t canStatusTime[MOTORS_NUM];
 	uint32_t canTelemReqTime[MOTORS_NUM];
+#endif
 	pwmPortStruct_t *pwm[14];           // max number on any board yet
 	uint16_t esc32Version[MOTORS_NUM];  // currently only storing this if using CAN
 	uint16_t value[MOTORS_NUM];
@@ -72,9 +76,11 @@ typedef struct {
 	uint8_t activeList[MOTORS_NUM];
 	uint8_t numActive;
 	uint8_t numGroups;
+#ifdef CANx
 #ifdef MOTORS_CAN_LOGGING
 	uint16_t head;
 	uint8_t logHandle;
+#endif
 #endif
 } motorsStruct_t;
 

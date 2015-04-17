@@ -39,6 +39,7 @@
 
 motorsStruct_t motorsData __attribute__((section(".ccm")));
 
+#ifdef CANx
 #ifdef MOTORS_CAN_LOGGING
 #include "filer.h"
 
@@ -76,6 +77,7 @@ void motorsReceiveTelem(uint8_t canId, uint8_t doc, void *p) {
 	// record reception time
 	motorsData.canStatusTime[canId-1] = micros;
 }
+#endif
 
 static float motorsThrust2Value(float thrust) {
 	return (-p[MOT_VALUE2T_A1] + __sqrtf(p[MOT_VALUE2T_A1]*p[MOT_VALUE2T_A1] + p[MOT_VALUE2T_A2] * 4.0f * thrust)) * (1.0f /
@@ -94,6 +96,7 @@ float motorsMax(void) {
 	return MOTORS_SCALE;
 }
 
+#ifdef CANx
 static void motorsCanSendGroups(void) {
 	int i;
 
@@ -133,6 +136,7 @@ static void motorsCheckCanStatus(int motorId) {
 	}
 #endif
 }
+#endif
 
 void motorsSendValues(void) {
 	int i;
@@ -152,6 +156,7 @@ void motorsSendValues(void) {
 					*motorsData.pwm[i]->ccr = p[MOT_ARM];
 				}
 			}
+#ifdef CANx
 			// CAN
 			else if (motorsData.can[i]) {
 				motorsCheckCanStatus(i);
@@ -164,9 +169,12 @@ void motorsSendValues(void) {
 					*motorsData.canPtrs[i] = 0;
 				}
 			}
+#endif
 		}
 
+#ifdef CANx
 	motorsCanSendGroups();
+#endif
 }
 
 // thrust in gram-force
@@ -228,14 +236,18 @@ void motorsOff(void) {
 				//*motorsData.pwm[i]->ccr = (supervisorData.state & STATE_ARMED) ? p[MOT_ARM] : 0;
 				*motorsData.pwm[i]->ccr = p[MOT_ARM];
 			}
+#ifdef CANx
 			// CAN
 			else if (motorsData.can[i]) {
 				motorsCheckCanStatus(i);
 				*motorsData.canPtrs[i] = 0;
 			}
+#endif
 		}
 
+#ifdef CANx
 	motorsCanSendGroups();
+#endif
 
 	motorsData.throttle = 0;
 	motorsData.throttleLimiter = 0.0f;
@@ -292,6 +304,7 @@ void motorsCommands(float throtCommand, float pitchCommand, float rollCommand, f
 	motorsData.throttle = throttle;
 }
 
+#ifdef CANx
 static void motorsCanInit(int i) {
 	uint8_t numTry = CAN_RETRIES;
 	uint8_t motorId = i;
@@ -319,6 +332,7 @@ static void motorsCanInit(int i) {
 		motorsCanRequestTelem(motorId);
 	}
 }
+#endif
 
 static void motorsPwmInit(int i) {
 #if defined(HAS_ONBOARD_ESC)
@@ -334,6 +348,7 @@ static void motorsPwmInit(int i) {
 
 int motorsArm(void) {
 	int tries = 1;
+#ifdef CANx
 	int i;
 
 	// group arm
@@ -353,19 +368,23 @@ int motorsArm(void) {
 				break;
 			}
 		}
+#endif
 
 	return tries;
 }
 
 void motorsDisarm(void) {
+#ifdef CANx
 	int i;
 
 	// group disarm
 	for (i = 0; i < motorsData.numGroups; i++) {
 		canCommandDisarm(CAN_TT_GROUP, i+1);
 	}
+#endif
 }
 
+#ifdef CANx
 static void motorsSetCanGroup(void) {
 	int group;
 	int subGroup;
@@ -401,6 +420,7 @@ static void motorsSetCanGroup(void) {
 		}
 	}
 }
+#endif
 
 void motorsInit(void) {
 	float sumPitch, sumRoll, sumYaw;
@@ -426,6 +446,7 @@ void motorsInit(void) {
 
 		if (d->throttle != 0.0f || d->pitch != 0.0f || d->roll != 0.0f || d->yaw != 0.0f) {
 
+#ifdef CANx
 			// CAN LO
 			if (((uint32_t)p[MOT_CANL]) & (1<<i)) {
 				motorsCanInit(i);
@@ -433,11 +454,11 @@ void motorsInit(void) {
 			// CAN HI (PDB)
 			else if (((uint32_t)p[MOT_CANH]) & (1<<i)) {
 				motorsCanInit(i+16);
-			}
-			// PWM
-			else if (i < PWM_NUM_PORTS) {
-				motorsPwmInit(i);
-			}
+			} else
+#endif
+				if (i < PWM_NUM_PORTS) {
+					motorsPwmInit(i);
+				}
 
 			motorsData.active[i] = 1;
 			motorsData.activeList[motorsData.numActive++] = i;
@@ -460,13 +481,16 @@ void motorsInit(void) {
 		AQ_NOTICE("Motors: Warning yaw control imbalance\n");
 	}
 
+#ifdef CANx
 #ifdef MOTORS_CAN_LOGGING
 	if (p[MOT_CANL] != 0.0f || p[MOT_CANH] != 0.0f) {
 		motorsSetupLogging();
 	}
 #endif
-
 	motorsSetCanGroup();
+#endif
 	motorsOff();
+#ifdef CANx
 	canTelemRegister(motorsReceiveTelem, CAN_TYPE_ESC);
+#endif
 }

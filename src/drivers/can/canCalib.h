@@ -19,6 +19,8 @@
 #ifndef _canCalib_h
 #define _canCalib_h
 
+#ifdef CANx
+
 #define CAN_ID			    0x0
 
 #define CAN_AXIS_STATUS		    0x100
@@ -50,5 +52,7 @@ extern canCalibStruct_t canCalibData;
 
 extern void canCalibInit(void);
 extern void canTxIMUData(uint32_t loop);
+
+#endif
 
 #endif

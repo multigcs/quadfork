@@ -29,6 +29,8 @@
 #include "comm.h"
 #include <math.h>
 
+#ifdef CANx
+
 canStruct_t canData;
 
 const char *canTypeStrings[] = {
@@ -630,3 +632,5 @@ void CAN_TX_HANDLER(void) {
 		canData.txTailLo = (canData.txTailLo + 1) % CAN_BUF_SIZE_LO;
 	}
 }
+
+#endif

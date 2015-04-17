@@ -21,6 +21,8 @@
 
 #include "can.h"
 
+#ifdef CANx
+
 enum osdTelemetryTypes {
 	OSD_TELEM_STATUS = 1,
 	OSD_TELEM_LAT_LON,
@@ -45,5 +47,7 @@ extern void canOSDInit(void);
 extern void canOSDRequestValue(canNodes_t *node, uint8_t seqId, uint8_t *data);
 extern void canOSDRequstRate(canNodes_t *node, uint8_t seqId, uint8_t *data);
 extern void canOSDTelemetry(uint32_t loop);
+
+#endif
 
 #endif

@@ -147,6 +147,8 @@ static void esc32OwConfigWrite(void) {
 	yield(100);
 }
 
+#ifdef CANx
+
 // read esc32 params from uSD
 static int8_t esc32ReadFile(char *fname, canNodes_t *canNode) {
 	char *fileBuf;
@@ -285,6 +287,7 @@ float esc32SetupCan(canNodes_t *canNode, uint8_t mode) {
 			}
 		}
 
+#ifdef CANx
 		i += esc32ReadFile(0, canNode);
 		if (i > 0) {
 			if (canCommandConfigWrite(CAN_TT_NODE, canNode->networkId)) {
@@ -293,7 +296,7 @@ float esc32SetupCan(canNodes_t *canNode, uint8_t mode) {
 				AQ_NOTICE("ESC32: CAN failed to flash params\n");
 			}
 		}
-
+#endif
 		ret = strtof(s, NULL);
 	} else {
 		AQ_PRINTF("ESC32: cannot detect ESC CAN ID %d\n", canNode->canId);
@@ -305,6 +308,8 @@ float esc32SetupCan(canNodes_t *canNode, uint8_t mode) {
 
 	return ret;
 }
+
+#endif
 
 void esc32SetupOw(const GPIO_TypeDef *port, const uint16_t pin, uint8_t mode) {
 	int16_t paramId;
@@ -335,11 +340,13 @@ void esc32SetupOw(const GPIO_TypeDef *port, const uint16_t pin, uint8_t mode) {
 			}
 		}
 
+#ifdef CANx
 		i += esc32ReadFile(0, 0);
 		if (i > 0) {
 			esc32OwConfigWrite();
 			AQ_PRINTF("ESC32: OW updated %d param(s) in flash\n", i);
 		}
+#endif
 	} else {
 		AQ_NOTICE("ESC32: cannot detect ESC via OW\n");
 	}

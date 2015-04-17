@@ -106,11 +106,13 @@ uint8_t commReadChar(commRcvrStruct_t *r) {
 			}
 			break;
 
+#ifdef CANx
 		case COMM_PORT_TYPE_CAN:
 			if (commData.portHandles[port]) {
 				return canUartReadChar(commData.portHandles[port]);
 			}
 			break;
+#endif
 
 #ifdef HAS_USB
 		case COMM_PORT_TYPE_USB:
@@ -132,11 +134,13 @@ uint8_t commAvailable(commRcvrStruct_t *r) {
 			}
 			break;
 
+#ifdef CANx
 		case COMM_PORT_TYPE_CAN:
 			if (commData.portHandles[port]) {
 				return canUartAvailable(commData.portHandles[port]);
 			}
 			break;
+#endif
 
 #ifdef HAS_USB
 		case COMM_PORT_TYPE_USB:
@@ -217,12 +221,14 @@ static void _commSchedule(uint8_t port) {
 				}
 				break;
 
+#ifdef CANx
 			case COMM_PORT_TYPE_CAN:
 				if (((canUartStruct_t *)(commData.portHandles[port]))->txTail == ((canUartStruct_t *)(commData.portHandles[port]))->txHead) {
 					canUartTxBuf(commData.portHandles[port], stack->memory, stack->size, commTxFinished, stack);
 					commData.txStackTails[port] = (tail + 1) % COMM_STACK_DEPTH;
 				}
 				break;
+#endif
 		}
 }
 
@@ -382,9 +388,13 @@ void commTaskCode(void *unused) {
 
 		commCheckNotices();
 		commCheckTelem();
+#ifdef CANx
 		canCheckMessage(loops);
+#endif
 		commCheckRcvr();
+#ifdef CANx
 		canUartStream();
+#endif
 
 		loops++;
 	}
@@ -509,6 +519,7 @@ void commInit(void) {
 	commData.initialized = 1;
 }
 
+#ifdef CANx
 void commRegisterCanUart(void *ptr, uint8_t type, uint8_t n) {
 	commData.portHandles[COMM_CAN_PORT+n] = ptr;
 	commData.portTypes[COMM_CAN_PORT+n] = type;
@@ -516,6 +527,7 @@ void commRegisterCanUart(void *ptr, uint8_t type, uint8_t n) {
 
 	commSetTypesUsed();
 }
+#endif
 
 void CRYP_IRQHandler(void) {
 	commSchedule();

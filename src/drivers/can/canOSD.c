@@ -16,6 +16,8 @@
     Copyright © 2011-2014  Bill Nesbitt
 */
 
+
+#include "aq.h"
 #include "canOSD.h"
 #include "can.h"
 #include "supervisor.h"
@@ -24,6 +26,8 @@
 #include "nav_ukf.h"
 #include "run.h"
 #include "radio.h"
+
+#ifdef CANx
 
 canOSDStruct_t canOSDData;
 
@@ -128,3 +132,5 @@ void canOSDInit(void) {
 		}
 	}
 }
+
+#endif

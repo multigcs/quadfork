@@ -22,6 +22,8 @@
 #include "stm32f4xx_can.h"
 #include <stdint.h>
 
+#ifdef CANx
+
 // Logical Communications Channel
 // 2 bits [28:27]
 #define CAN_LCC_MASK            ((uint32_t)0x3<<30)
@@ -245,5 +247,7 @@ extern void canSendBulkFinish(void);
 extern int8_t canSend(uint32_t id, uint8_t tid, uint8_t n, void *data);
 extern void canAck(uint8_t networkId, uint8_t seqId);
 extern void canNack(uint8_t networkId, uint8_t seqId);
+
+#endif
 
 #endif

@@ -16,8 +16,12 @@
     Copyright © 2011-2014  Bill Nesbitt
 */
 
+
+#include "aq.h"
 #include "canSensors.h"
 #include "aq_timer.h"
+
+#ifdef CANx
 
 canSensorsStruct_t canSensorsData;
 
@@ -41,3 +45,5 @@ void canSensorsInit(void) {
 		}
 	}
 }
+
+#endif

@@ -21,6 +21,8 @@
 
 #include "can.h"
 
+#ifdef CANx
+
 #define CAN_SENSORS_RATE    10    // Hz
 
 // sensor types
@@ -46,5 +48,7 @@ typedef struct {
 extern canSensorsStruct_t canSensorsData;
 
 extern void canSensorsInit(void);
+
+#endif
 
 #endif

@@ -90,10 +90,12 @@ void aqInit(void *pdata) {
 #ifdef SDIO_DMA
 	loggerInit();
 #endif
+#ifdef CANx
 #ifdef CAN_CALIB
 	canCalibInit();
 #else
 	canInit();
+#endif
 #endif
 	motorsInit();
 	controlInit();

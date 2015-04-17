@@ -16,9 +16,13 @@
     Copyright © 2011-2014  Bill Nesbitt
 */
 
+
+#include "aq.h"
 #include "canUart.h"
 #include "comm.h"
 #include "config.h"
+
+#ifdef CANx
 
 canUartStruct_t canUartData[CAN_UART_NUM];
 
@@ -126,3 +130,5 @@ void canUartInit(void) {
 		}
 	}
 }
+
+#endif
