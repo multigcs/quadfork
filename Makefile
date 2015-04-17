@@ -15,7 +15,6 @@ LD                = $(TOOLCHAIN_PREFIX)-gcc
 GDB               = $(TOOLCHAIN_PREFIX)-gdb
 SIZE              = $(TOOLCHAIN_PREFIX)-size
 OBJCOPY           = $(TOOLCHAIN_PREFIX)-objcopy
-LINKER_SCRIPT     = src/system/STM32F405_FLASH.ld
 EXTLIBS          := Libraries
 CMSIS            := $(EXTLIBS)/CMSIS
 DSPLIB           := $(CMSIS)/DSP_Lib
@@ -125,6 +124,8 @@ SRC += src/drivers/sensors/hmc5983.c
 SRC += src/drivers/sensors/mpu6000.c
 SRC += src/drivers/sensors/max21100.c
 
+SRC += src/drivers/sensors/l3gd20.c
+
 SRC += src/drivers/protocols/ppm.c
 SRC += src/drivers/protocols/dsm.c
 SRC += src/drivers/protocols/sbus.c
@@ -190,6 +191,10 @@ CDEFS += -D__FPU_PRESENT=1 -DARM_MATH_CM4 -D__THUMB -DNESTED_INTERRUPTS -DCTL_TA
 CDEFS += -DBOARD_TYPE=$(BOARD_TYPE) -DBOARD_VERSION=$(BOARD_VER) -DBOARD_REVISION=$(BOARD_REV) -DDIMU_VERSION=$(DIMU_VER)
 CDEFS += -D__sqrtf=sqrtf
 
+#CDEFS += -DHSE_VALUE=8000000 -DPLL_M=8
+#LINKER_SCRIPT     = src/system/STM32F429_FLASH.ld
+CDEFS += -DHSE_VALUE=25000000 -DPLL_M=25
+LINKER_SCRIPT     = src/system/STM32F405_FLASH.ld
 
 MCUFLAGS  = -mcpu=cortex-m4 -mthumb -mlittle-endian -mfpu=fpv4-sp-d16 -mfloat-abi=hard
 MCUFLAGS += -fsingle-precision-constant -Wall -finline-functions
