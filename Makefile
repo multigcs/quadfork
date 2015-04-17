@@ -1,9 +1,10 @@
 
-BOARD_VER        ?= 6
+BOARD_TYPE       ?= 1
+BOARD_VER        ?= 90
 BOARD_REV        ?= 0
 DIMU_VER         ?= 0
 
-TARGET           := autoquad
+TARGET           := quadfork
 BUILDDIR         := build
 OPTLVL           := s # Optimization level, can be [0, 1, 2, 3, s].
 TOOLCHAIN_PREFIX := arm-none-eabi
