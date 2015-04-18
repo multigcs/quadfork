@@ -26,7 +26,8 @@ unsigned long getBuildNumber(void) {
 unsigned long getRevisionNumber(void) {
 	unsigned long  rev;
 
-	sscanf(REVISION, "$Revision: %ld", &rev);
+//	sscanf(REVISION, "$Revision: %ld", &rev);
+	rev = REVISION_N;
 
 	return rev;
 }
