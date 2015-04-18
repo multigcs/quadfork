@@ -147,7 +147,11 @@
 /************************* PLL Parameters *************************************/
 /* PLL_VCO = (HSE_VALUE or HSI_VALUE / PLL_M) * PLL_N */
 #ifndef PLL_M
+#ifdef RCC_USE_INTERNAL_OSC
+#define PLL_M      16
+#else
 #define PLL_M      25
+#endif
 #endif
 #ifndef PLL_N
 #define PLL_N      336
@@ -373,8 +377,13 @@ static void SetSysClock(void) {
 		RCC->CFGR |= RCC_CFGR_PPRE1_DIV4;
 
 		/* Configure the main PLL */
+#ifdef RCC_USE_INTERNAL_OSC
+		RCC->PLLCFGR = PLL_M | (PLL_N << 6) | (((PLL_P >> 1) -1) << 16) |
+					   (RCC_PLLCFGR_PLLSRC_HSI) | (PLL_Q << 24);
+#else
 		RCC->PLLCFGR = PLL_M | (PLL_N << 6) | (((PLL_P >> 1) -1) << 16) |
 					   (RCC_PLLCFGR_PLLSRC_HSE) | (PLL_Q << 24);
+#endif
 
 		/* Enable the main PLL */
 		RCC->CR |= RCC_CR_PLLON;
