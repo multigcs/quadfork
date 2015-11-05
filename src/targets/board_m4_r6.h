@@ -47,16 +47,16 @@
 //#define SDIO_TRANSFER_CLK_DIV           ((uint8_t)0x10)	// SDIO Data Transfer Frequency (1.5MHz max)
 
 enum pwmPorts {
-	PWM_1 = 0,
-	PWM_2,
-	PWM_3,
-	PWM_4,
-	PWM_5,
-	PWM_6,
-	PWM_7,
-	PWM_8,
-	PWM_9,
-	PWM_NUM_PORTS
+    PWM_1 = 0,
+    PWM_2,
+    PWM_3,
+    PWM_4,
+    PWM_5,
+    PWM_6,
+    PWM_7,
+    PWM_8,
+    PWM_9,
+    PWM_NUM_PORTS
 };
 
 #define PPM_PWM_CHANNEL		8	// which PWM channel to use for PPM capture
@@ -220,16 +220,6 @@ enum pwmPorts {
 #define CAN_TX_HANDLER		    CAN2_TX_IRQHandler
 
 
-#define I2C_I2C1_CLOCK		    RCC_APB1Periph_I2C1
-#define I2C_I2C1_AF		        GPIO_AF_I2C1
-#define I2C_I2C1_SCL_PORT	    GPIOB
-#define I2C_I2C1_SDA_PORT	    GPIOB
-#define I2C_I2C1_SCL_PIN	    GPIO_Pin_6
-#define I2C_I2C1_SDA_PIN	    GPIO_Pin_7
-#define I2C_I2C1_SCL_SOURCE	    GPIO_PinSource6
-#define I2C_I2C1_SDA_SOURCE	    GPIO_PinSource7
-
-
 #define SPI_SPI1_CLOCK		    RCC_APB2Periph_SPI1
 #define SPI_SPI1_AF		    GPIO_AF_SPI1
 #define SPI_SPI1_SCK_PORT	    GPIOA
@@ -300,7 +290,7 @@ enum pwmPorts {
 #define HAS_DIGITAL_IMU
 #define USE_DIGITAL_IMU
 
-//#define DIMU_HAVE_EEPROM
+#define DIMU_HAVE_EEPROM
 #define DIMU_HAVE_MPU6000
 #define DIMU_HAVE_HMC5983
 #define DIMU_HAVE_MS5611
@@ -509,9 +499,9 @@ enum pwmPorts {
 
 #define ANALOG_REF_VOLTAGE	3.3f
 #define ANALOG_VIN_RTOP         10.0f
-#define ANALOG_VIN_RBOT         1.0f
+#define ANALOG_VIN_RBOT         10.0f
 #define ANALOG_EXT_VOLT_RTOP	10.0f
-#define ANALOG_EXT_VOLT_RBOT	1.0f
+#define ANALOG_EXT_VOLT_RBOT	1.2f
 //#define ANALOG_EXT_AMP_RTOP	1.0f
 //#define ANALOG_EXT_AMP_RBOT	1.2f
 
@@ -571,8 +561,6 @@ enum pwmPorts {
 //#define RCC_STEPUP_EN_PIN       GPIO_Pin_2
 #define RCC_SYNC_PORT           GPIOB
 #define RCC_SYNC_PIN            GPIO_Pin_10
-
-#define USE_EXTERNAL_ESC
 
 #ifndef USE_EXTERNAL_ESC
 #define HAS_ONBOARD_ESC         84000000
@@ -674,7 +662,7 @@ enum pwmPorts {
 #define DEFAULT_IMU_GYO_ALGN_ZX     0.0
 #define DEFAULT_IMU_GYO_ALGN_ZY     0.0
 
-/*
+
 #define CYRF_TIMER              TIM7
 #define CYRF_TIMER_CLOCK        (rccClocks.PCLK1_Frequency * 2)
 #define CYRF_TIMER_IRQ_CH       TIM7_IRQn
@@ -690,5 +678,5 @@ enum pwmPorts {
 //#define CYRF_RST_PIN            GPIO_Pin_6
 #define CYRF_CS_PORT            GPIOB
 #define CYRF_CS_PIN             GPIO_Pin_11
-*/
+
 #endif
