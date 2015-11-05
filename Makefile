@@ -123,7 +123,7 @@ SRC += src/drivers/sensors/hmc5983.c
 SRC += src/drivers/sensors/mpu6000.c
 SRC += src/drivers/sensors/max21100.c
 
-SRC += src/drivers/sensors/l3gd20.c
+#SRC += src/drivers/sensors/l3gd20.c
 
 SRC += src/drivers/protocols/ppm.c
 SRC += src/drivers/protocols/dsm.c
@@ -211,8 +211,8 @@ OBJ         = $(STM_SRC:%.c=$(BUILDDIR)/%.o) $(SRC:%.c=$(BUILDDIR)/%.o) $(ASM_SR
 
 all: $(OBJ)
 	$(CC) -o $(BUILDDIR)/$(TARGET).elf $(LDFLAGS) $(OBJ) $(LDLIBS)
-	$(OBJCOPY) -O ihex   $(BUILDDIR)/$(TARGET).elf $(BUILDDIR)/$(TARGET).hex
-	$(OBJCOPY) -O binary $(BUILDDIR)/$(TARGET).elf $(BUILDDIR)/$(TARGET).bin
+	$(OBJCOPY) --remove-section .ccm -O ihex   $(BUILDDIR)/$(TARGET).elf $(BUILDDIR)/$(TARGET).hex
+	$(OBJCOPY) --remove-section .ccm -O binary $(BUILDDIR)/$(TARGET).elf $(BUILDDIR)/$(TARGET).bin
 
 clean:
 	rm -f $(OBJ)
@@ -238,4 +238,8 @@ debug: $(BUILDDIR)/$(TARGET).elf
 
 flash: $(BUILDDIR)/$(TARGET).hex
 	stm32flash -w $(BUILDDIR)/$(TARGET).hex -v -g 0x0 -b 115200 /dev/ttyUSB0
+
+dfu: $(BUILDDIR)/$(TARGET).bin
+	dfu-util -a 0 -d 0483:df11 -s 0x08000000:leave -R -D $(BUILDDIR)/$(TARGET).bin
+
 
