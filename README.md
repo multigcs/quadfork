@@ -29,7 +29,6 @@ Changes again's Autoquad:
 		initial roi support
 
 
-
 Build for OpenFC 0.90:
 
 	make BOARD_TYPE=1 BOARD_VER=90 clean all
@@ -40,4 +39,7 @@ Build for OpenFC 0.91:
 	make BOARD_TYPE=1 BOARD_VER=91 clean all
 	ls build/autoquad.hex
 
+Build and Flash inside a Docker-Container (for Autoquad-M4):
+
+	sh ./dockerbuild.sh BOARD_TYPE=0 BOARD_VER=8 BOARD_REV=6 all dfu
 
