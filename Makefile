@@ -3,6 +3,7 @@ BOARD_TYPE       ?= 1
 BOARD_VER        ?= 90
 BOARD_REV        ?= 0
 DIMU_VER         ?= 0
+FLASH_DEVICE     ?= /dev/ttyUSB0
 
 TARGET           := quadfork
 BUILDDIR         := build
@@ -237,9 +238,8 @@ debug: $(BUILDDIR)/$(TARGET).elf
 	arm-none-eabi-gdb --command=$(CURDIR)/src/system/gdb.init $(BUILDDIR)/$(TARGET).elf
 
 flash: $(BUILDDIR)/$(TARGET).hex
-	stm32flash -w $(BUILDDIR)/$(TARGET).hex -v -g 0x0 -b 115200 /dev/ttyUSB0
+	stm32flash -w $(BUILDDIR)/$(TARGET).hex -v -g 0x0 -b 115200 $FLASH_DEVICE
 
 dfu: $(BUILDDIR)/$(TARGET).bin
 	dfu-util -a 0 -d 0483:df11 -s 0x08000000:leave -R -D $(BUILDDIR)/$(TARGET).bin
-
 
