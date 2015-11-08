@@ -16,8 +16,8 @@ COMM_STREAM_TYP6	                        0
 COMM_STREAM_TYP7	                        0
 CONFIG_VERSION	                      128
 CTRL_BATT_COMP	                        0
-CTRL_DBAND_THRO	                       40
-CTRL_DEAD_BAND	                       40
+CTRL_DBAND_THRO	                       60
+CTRL_DEAD_BAND	                       60
 CTRL_FACT_PITC	          0.0500000007451
 CTRL_FACT_ROLL	          0.0500000007451
 CTRL_FACT_THRO	           0.649999976158
@@ -167,9 +167,6 @@ IMU_MAG_SCAL_Z	           0.843747317791
 IMU_MPU_LPF	                        0
 IMU_PRESS_SENSE	                        0
 IMU_ROT	                     -135
-LIC_KEY1	                    31392
-LIC_KEY2	                        0
-LIC_KEY3	                        0
 MOT_ARM	                        0
 MOT_CANH	                        0
 MOT_CANL	                        0
