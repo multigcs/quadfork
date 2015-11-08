@@ -19,7 +19,7 @@ then
 	echo "RUN mkdir -p /usr/src/quadfork" >> build/Dockerfile
 	for PART in Makefile Libraries src
 	do
-		echo "COPY "$DIR/$PART" /usr/src/quadfork/$PART" >> build/Dockerfile
+		echo "COPY \"$DIR/$PART\" \"/usr/src/quadfork/$PART\"" >> build/Dockerfile
 	done
 else
 	echo "RUN (cd /usr/src/ ; git clone https://github.com/multigcs/quadfork.git)" >> build/Dockerfile
