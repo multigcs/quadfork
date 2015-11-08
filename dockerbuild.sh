@@ -4,6 +4,8 @@
 
 DIR="`pwd`"
 
+mkdir -p build
+
 cat <<EOF > build/Dockerfile
 FROM debian:jessie
 ENV DEBIAN_FRONTEND noninteractive
@@ -23,7 +25,6 @@ else
 	echo "RUN (cd /usr/src/ ; git clone https://github.com/multigcs/quadfork.git)" >> build/Dockerfile
 fi
 
-mkdir -p build
 echo "#!/bin/sh" > build/build.sh
 echo "(cd /usr/src/quadfork ; make \$@)" >> build/build.sh
 chmod 755 build/build.sh
