@@ -30,7 +30,7 @@ echo "(cd /usr/src/quadfork ; make \$@)" >> build/build.sh
 chmod 755 build/build.sh
 
 docker build -t quadfork .
-docker run --privileged=true -i -t -v "$DIR/build":/usr/src/quadfork/build quadfork /bin/bash /usr/src/quadfork/build/build.sh $@
+docker run --privileged=true -i -t --rm -v "$DIR/build":/usr/src/quadfork/build quadfork /bin/bash /usr/src/quadfork/build/build.sh $@
 
 rm -rf Dockerfile
 rm -rf build/build.sh
