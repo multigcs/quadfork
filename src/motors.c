@@ -152,8 +152,7 @@ void motorsSendValues(void) {
 					*motorsData.pwm[i]->ccr = constrainInt((float)motorsData.value[i] * (p[MOT_MAX] -  p[MOT_MIN]) / MOTORS_SCALE + p[MOT_MIN], p[MOT_START],
 														   p[MOT_MAX]);
 				} else {
-					//*motorsData.pwm[i]->ccr = 0;
-					*motorsData.pwm[i]->ccr = p[MOT_ARM];
+					*motorsData.pwm[i]->ccr = 0;
 				}
 			}
 #ifdef CANx
@@ -209,11 +208,9 @@ void motorsSendThrust(void) {
 				}
 
 				// battery voltage compensation
-				if (p[CTRL_BATT_COMP] > 0.0) {
-					nominalBatVolts = MOTORS_CELL_VOLTS * analogData.batCellCount;
-					voltageFactor = 1.0f + (nominalBatVolts - analogData.vIn) / nominalBatVolts * p[CTRL_BATT_COMP];
-					value *= voltageFactor;
-				}
+				nominalBatVolts = MOTORS_CELL_VOLTS * analogData.batCellCount;
+				voltageFactor = 1.0f + (nominalBatVolts - analogData.vIn) / nominalBatVolts;
+				value *= voltageFactor;
 			}
 #endif
 
@@ -233,8 +230,7 @@ void motorsOff(void) {
 
 			// PWM
 			if (i < PWM_NUM_PORTS && motorsData.pwm[i]) {
-				//*motorsData.pwm[i]->ccr = (supervisorData.state & STATE_ARMED) ? p[MOT_ARM] : 0;
-				*motorsData.pwm[i]->ccr = p[MOT_ARM];
+				*motorsData.pwm[i]->ccr = (supervisorData.state & STATE_ARMED) ? p[MOT_ARM] : 0;
 			}
 #ifdef CANx
 			// CAN
@@ -264,10 +260,8 @@ void motorsCommands(float throtCommand, float pitchCommand, float rollCommand, f
 	throttle = constrainFloat(throtCommand - motorsData.throttleLimiter, 0.0f, MOTORS_SCALE);
 
 	// calculate voltage factor
-	if (p[CTRL_BATT_COMP > 0.0]) {
-		nominalBatVolts = MOTORS_CELL_VOLTS*analogData.batCellCount;
-		voltageFactor = 1.0f + (nominalBatVolts - analogData.vIn) / nominalBatVolts * p[CTRL_BATT_COMP];
-	}
+	nominalBatVolts = MOTORS_CELL_VOLTS*analogData.batCellCount;
+	voltageFactor = 1.0f + (nominalBatVolts - analogData.vIn) / nominalBatVolts;
 
 	// calculate and set each motor value
 	for (i = 0; i < MOTORS_NUM; i++) {
@@ -280,9 +274,7 @@ void motorsCommands(float throtCommand, float pitchCommand, float rollCommand, f
 			value += (rollCommand * d->roll * 0.01f);
 			value += (ruddCommand * d->yaw * 0.01f);
 
-			if (p[CTRL_BATT_COMP > 0.0]) {
-				value *= voltageFactor;
-			}
+			value *= voltageFactor;
 
 			// check for over throttle
 			if (value >= MOTORS_SCALE) {
@@ -336,12 +328,12 @@ static void motorsCanInit(int i) {
 
 static void motorsPwmInit(int i) {
 #if defined(HAS_ONBOARD_ESC)
-	motorsData.pwm[i] = pwmInitOut(i, HAS_ONBOARD_ESC, p[MOT_PWM_FREQ], 0, 0);
+	motorsData.pwm[i] = pwmInitOut(i, HAS_ONBOARD_ESC, MOTORS_PWM_FREQ, 0, 0);
 #else
 #if defined(USE_QUATOS)
-	motorsData.pwm[i] = pwmInitOut(i, 1000000, p[MOT_PWM_FREQ], 0, 1);	    // closed loop RPM mode
+	motorsData.pwm[i] = pwmInitOut(i, 1000000, MOTORS_PWM_FREQ, 0, 1);	    // closed loop RPM mode
 #else
-	motorsData.pwm[i] = pwmInitOut(i, 1000000, p[MOT_PWM_FREQ], 0, 0);	    // open loop mode
+	motorsData.pwm[i] = pwmInitOut(i, 1000000, MOTORS_PWM_FREQ, 0, 0);	    // open loop mode
 #endif  // USE_QUATOS
 #endif  // HAS_ONBOARD_ESC
 }
@@ -369,7 +361,6 @@ int motorsArm(void) {
 			}
 		}
 #endif
-
 	return tries;
 }
 
@@ -456,9 +447,9 @@ void motorsInit(void) {
 				motorsCanInit(i+16);
 			} else
 #endif
-				if (i < PWM_NUM_PORTS) {
-					motorsPwmInit(i);
-				}
+			if (i < PWM_NUM_PORTS) {
+				motorsPwmInit(i);
+			}
 
 			motorsData.active[i] = 1;
 			motorsData.activeList[motorsData.numActive++] = i;
