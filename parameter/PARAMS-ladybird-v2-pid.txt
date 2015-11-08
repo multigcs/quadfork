@@ -167,9 +167,6 @@ IMU_MAG_SCAL_Z	                        1
 IMU_MPU_LPF	                        0
 IMU_PRESS_SENSE	                        0
 IMU_ROT	                     -135
-LIC_KEY1	                    31392
-LIC_KEY2	                        0
-LIC_KEY3	                        0
 MOT_ARM	                        0
 MOT_CANH	                        0
 MOT_CANL	                        0
