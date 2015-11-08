@@ -228,73 +228,7 @@ void controlTaskCode(void *unused) {
 
 					// roll rate from angle
 					rollCommand = pidUpdate(controlData.rollRatePID, pidUpdate(controlData.rollAnglePID, controlData.roll, AQ_ROLL), IMU_DRATEX);
-				}
-
-
-				else if (p[CTRL_PID_TYPE] == 2) {
-
-					// pitch angle
-					pitchCommand = pidUpdate(controlData.pitchAnglePID, controlData.pitch, AQ_PITCH);
-					// rate
-					pitchCommand += pidUpdate(controlData.pitchRatePID, 0.0f, IMU_DRATEY);
-
-					int axis = 0; // ROLL
-					float PID_P = 3.7;
-					float PID_I = 0.031;
-					float PID_D = 23.0;
-
-
-					float           error, errorAngle, AngleRateTmp, RateError, delta, deltaSum;
-					float           PTerm, ITerm, PTermACC = 0, ITermACC = 0, PTermGYRO = 0, ITermGYRO = 0, DTerm;
-					static int16_t  lastGyro[3] = { 0, 0, 0 };
-					static float    delta1[3], delta2[3];
-					static float    errorGyroI[3] = { 0, 0, 0 }, errorAngleI[2] = { 0, 0 };
-					static float    lastError[3]  = { 0, 0, 0 }, lastDTerm[3]   = { 0, 0, 0 }; // pt1 element http://www.multiwii.com/forum/viewtopic.php?f=23&t=2624;
-					static int16_t  axisPID[3];
-					static float rollPitchRate = 0.0;
-					static float newpidimax = 0.0;
-					float dT;
-					uint8_t ANGLE_MODE = 0;
-					uint8_t HORIZON_MODE = 0;
-
-					uint16_t cycleTime = IMU_LASTUPD -
-										 controlData.lastUpdate;                                          // this is the number in micro second to achieve a full loop, it can differ a little and is taken into account in the PID loop
-
-					if ((ANGLE_MODE || HORIZON_MODE)) {        // MODE relying on ACC
-						errorAngle = constrainFloat(2.0f * (float)controlData.roll, -500.0f, +500.0f) - AQ_ROLL;
-					}
-
-					if (!ANGLE_MODE) {                                   //control is GYRO based (ACRO and HORIZON - direct sticks control is applied to rate PID
-						AngleRateTmp = (float)(rollPitchRate + 27) * (float)controlData.roll *
-									   0.0625f; // AngleRateTmp = ((int32_t) (cfg.rollPitchRate + 27) * rcCommand[axis]) >> 4;
-						if (HORIZON_MODE) {
-							AngleRateTmp += PID_I * errorAngle *
-											0.0390625f; //increased by x10 //0.00390625f AngleRateTmp += (errorAngle * (float)cfg.I8[PIDLEVEL]) >> 8;
-						}
-					} else {                                                // it's the ANGLE mode - control is angle based, so control loop is needed
-						AngleRateTmp = PID_P * errorAngle * 0.0223214286f; // AngleRateTmp = (errorAngle * (float)cfg.P8[PIDLEVEL]) >> 4; * LevelPprescale;
-					}
-
-					RateError         = AngleRateTmp - IMU_DRATEX;
-					PTerm             = PID_P * RateError * 0.0078125f;
-					errorGyroI[axis] += PID_I * RateError * (float)cycleTime / 2048.0f;
-					errorGyroI[axis]  = constrainFloat(errorGyroI[axis], -newpidimax, newpidimax);
-					ITerm             = errorGyroI[axis] / 8192.0f;
-					delta             = RateError - lastError[axis];
-					lastError[axis]   = RateError;
-					delta             = delta * 16383.75f / (float)cycleTime;
-					deltaSum          = delta1[axis] + delta2[axis] + delta;
-					delta2[axis]      = delta1[axis];
-					delta1[axis]      = delta;
-					DTerm             = PID_D * deltaSum * 0.00390625f;
-					axisPID[axis]     = PTerm + ITerm + DTerm;
-
-
-					rollCommand = AngleRateTmp;
-
-				}
-
-				else {
+				} else {
 					pitchCommand = 0.0f;
 					rollCommand = 0.0f;
 					ruddCommand = 0.0f;
