@@ -1,6 +1,6 @@
 # Onboard parameters for system MAV 053
 
-COMM_BAUD1	                   115200
+COMM_BAUD1	                    57600 
 COMM_BAUD2	                   230400
 COMM_BAUD3	                  3000000
 COMM_BAUD4	                   460800
@@ -14,7 +14,6 @@ COMM_STREAM_TYP4	                        0
 COMM_STREAM_TYP5	                        2
 COMM_STREAM_TYP6	                        0
 COMM_STREAM_TYP7	                        0
-CONFIG_VERSION	                      128
 CTRL_BATT_COMP	                        0
 CTRL_DBAND_THRO	                       60
 CTRL_DEAD_BAND	                       60
