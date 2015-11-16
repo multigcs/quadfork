@@ -287,6 +287,10 @@ void mavlinkDo(void) {
 #endif
 	// EXTRA3 stream -- AQ custom telemetry
 	if (streamAll || (mavlinkData.streams[MAV_DATA_STREAM_EXTRA3].enable && mavlinkData.streams[MAV_DATA_STREAM_EXTRA3].next < micros)) {
+
+		// send Gimbal-Data (test for Storm32-Gimbal-Controller)
+		mavlink_msg_command_long_send(MAVLINK_COMM_0, mavlinkData.wpTargetSysId, mavlinkData.wpTargetCompId, MAV_CMD_DO_MOUNT_CONTROL, 0, gimbalData.roiAngle, 0.0, gimbalData.roiHeading, 0, 0, 0, MAV_MOUNT_MODE_NEUTRAL);
+
 		for (uint8_t i=0; i < AQMAV_DATASET_ENUM_END; ++i) {
 			if (!mavlinkData.customDatasets[i]) {
 				continue;
