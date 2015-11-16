@@ -608,7 +608,6 @@ void mavlinkRecvTaskCode(commRcvrStruct_t *r) {
 
 						if (wp->type == NAV_LEG_HOME) {
 							wp = navGetHomeWaypoint();
-
 							mavlink_msg_mission_item_send(MAVLINK_COMM_0, msg.sysid, MAV_COMP_ID_MISSIONPLANNER,
 														  seqId, MAV_FRAME_GLOBAL, MAV_CMD_NAV_RETURN_TO_LAUNCH, (navData.missionLeg == seqId) ? 1 : 0, 1,
 														  wp->targetRadius, wp->loiterTime/1000, 0.0f, wp->poiHeading, wp->targetLat, wp->targetLon, wp->targetAlt);
@@ -628,6 +627,10 @@ void mavlinkRecvTaskCode(commRcvrStruct_t *r) {
 							mavlink_msg_mission_item_send(MAVLINK_COMM_0, msg.sysid, MAV_COMP_ID_MISSIONPLANNER,
 														  seqId, mavFrame, MAV_CMD_NAV_LAND, (navData.missionLeg == seqId) ? 1 : 0, 1,
 														  0.0f, wp->maxVertSpeed, wp->maxHorizSpeed, wp->poiAltitude, wp->targetLat, wp->targetLon, wp->targetAlt);
+						} else if (wp->type == NAV_LEG_DO_SET_ROI) {
+							mavlink_msg_mission_item_send(MAVLINK_COMM_0, msg.sysid, MAV_COMP_ID_MISSIONPLANNER,
+														  seqId, mavFrame, MAV_CMD_DO_SET_ROI, (navData.missionLeg == seqId) ? 1 : 0, 1,
+														  wp->targetRadius, wp->loiterTime/1000, 0.0f, 0.0f, wp->targetLat, wp->targetLon, wp->targetAlt);
 						} else {
 							mavlink_msg_mission_item_send(MAVLINK_COMM_0, msg.sysid, MAV_COMP_ID_MISSIONPLANNER,
 														  seqId, mavFrame, MAV_CMD_NAV_WAYPOINT, (navData.missionLeg == seqId) ? 1 : 0, 1,
@@ -805,15 +808,14 @@ void mavlinkRecvTaskCode(commRcvrStruct_t *r) {
 								wp->maxVertSpeed = mavlink_msg_mission_item_get_param2(&msg);
 								wp->maxHorizSpeed = mavlink_msg_mission_item_get_param3(&msg);
 								wp->poiAltitude = mavlink_msg_mission_item_get_param4(&msg);
-							}
-
-							else if (command == MAV_CMD_DO_SET_ROI) {
+							} else if (command == MAV_CMD_DO_SET_ROI) {
 								wp = navGetWaypoint(seqId);
 								if (frame == MAV_FRAME_GLOBAL_RELATIVE_ALT) {
 									wp->relativeAlt = 1;
 								} else {
 									wp->relativeAlt = 0;
 								}
+
 
 								wp->type = NAV_LEG_DO_SET_ROI;
 								wp->targetLat = mavlink_msg_mission_item_get_x(&msg);
